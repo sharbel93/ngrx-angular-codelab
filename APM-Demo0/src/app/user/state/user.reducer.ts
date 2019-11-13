@@ -4,7 +4,7 @@ export function reducer(state, action) {
       // console.log('existing state: ' + JSON.stringify(state));
       // console.log('payload: ' + action.payload);
       return {
-        ...state, maskUsername: action.payload
+        ...state, maskUserName: action.payload
       };
     default:
       return state;
