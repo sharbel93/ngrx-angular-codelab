@@ -39,9 +39,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
     // subscribing to the state changes from the ngrx store
     // TODO: Unsubscribe
-    this.store.pipe(select('products')).subscribe(
-      products => {
-          this.displayCode = products.showProductCode;
+    this.store.pipe(select(fromProduct.getShowProductCode)).subscribe(
+      showProductCode => {
+          this.displayCode = showProductCode;
       });
   }
 
