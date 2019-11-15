@@ -37,11 +37,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.store.pipe(select(fromProduct.getCurrentProduct)).subscribe(
       currentProduct => this.selectedProduct = currentProduct
     );
+    this.store.dispatch(new productActions.Load());
+    this.store.pipe(select(fromProduct.getProducts))
+      .subscribe((products: Product[]) => this.products = products);
 
-    this.productService.getProducts().subscribe({
-      next: (products: Product[]) => this.products = products,
-      error: (err: any) => this.errorMessage = err.error
-    });
+    // this.productService.getProducts().subscribe({
+    //   next: (products: Product[]) => this.products = products,
+    //   error: (err: any) => this.errorMessage = err.error
+    // });
 
     // subscribing to the state changes from the ngrx store
     // TODO: Unsubscribe
