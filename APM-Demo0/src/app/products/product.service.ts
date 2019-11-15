@@ -27,7 +27,7 @@ export class ProductService {
         catchError(this.handleError)
       );
   }
-  
+
   createProduct(product: Product): Observable<Product> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     product.id = null;
