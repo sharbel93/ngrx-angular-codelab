@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from './auth.service';
 import {select, Store} from '@ngrx/store';
 import * as fromUser from './state/user.reducer';
+import * as userActions from './state/user.actions';
 @Component({
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -25,9 +26,9 @@ export class LoginComponent implements OnInit {
     // subscribing to the state changes from the ngrx store
     // TODO: Unsubscribe
     this.store.pipe(select(fromUser.getMaskUserName)).subscribe(
-      maskUserName => {
-          this.maskUserName = maskUserName;
-      });
+      maskUserName =>
+          this.maskUserName = maskUserName
+      );
 
   }
 
@@ -37,10 +38,7 @@ export class LoginComponent implements OnInit {
 
   checkChanged(value: boolean): void {
     // this.maskUserName = value;
-    this.store.dispatch({
-      type: 'MASK_USER_NAME',
-      payload: value
-    });
+    this.store.dispatch(new userActions.MaskUserName(value));
   }
 
   login(loginForm: NgForm): void {
