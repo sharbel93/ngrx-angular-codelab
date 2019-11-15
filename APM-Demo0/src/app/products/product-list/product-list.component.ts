@@ -35,25 +35,29 @@ export class ProductListComponent implements OnInit, OnDestroy {
     private productService: ProductService) { }
 
   ngOnInit(): void {
-    // this.sub = this.productService.selectedProductChanges$.subscribe(
-    //   selectedProduct => this.selectedProduct = selectedProduct
-    // );
-  // TODO: Unsubscribe
-    this.store.pipe(select(fromProduct.getCurrentProduct)).subscribe(
+
+    // Do NOT subscribe here because it uses an async pipe
+    // This gets the initial values until the load is complete.
+    this.products$ = this.store.pipe(select(fromProduct.getProducts));
+    // Do NOT subscribe here because it uses an async pipe
+    this.errorMessage$ = this.store.pipe(select(fromProduct.getError));
+
+    this.store.dispatch(new productActions.Load());
+
+    // Subscribe here because it does not use an async pipe
+    this.store.pipe(select(fromProduct.getCurrentProduct),
+      takeWhile(() => this.componentActive)).subscribe(
       currentProduct => this.selectedProduct = currentProduct
     );
-    this.errorMessage$ = this.store.pipe(select(fromProduct.getError))
-    this.store.dispatch(new productActions.Load());
-     this.products$ = this.store.pipe(select(fromProduct.getProducts));
-
     // this.productService.getProducts().subscribe({
     //   next: (products: Product[]) => this.products = products,
     //   error: (err: any) => this.errorMessage = err.error
     // });
 
     // subscribing to the state changes from the ngrx store
-    // TODO: Unsubscribe
-    this.store.pipe(select(fromProduct.getShowProductCode)).subscribe(
+    // Subscribe here because it does not use an async pipe
+    this.store.pipe(select(fromProduct.getShowProductCode),
+      takeWhile(() => this.componentActive)).subscribe(
       showProductCode => {
           this.displayCode = showProductCode;
       });
