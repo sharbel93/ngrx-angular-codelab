@@ -58,7 +58,7 @@ export class UpdateProductSuccess implements Action {
 }
 export class UpdateProductFail implements Action {
   readonly type = ProductActionTypes.UpdateProductFail;
-  constructor(public payload: Product) {}
+  constructor(public payload: string) {}
 }
 
 export type ProductActions = ToggleProductCode
