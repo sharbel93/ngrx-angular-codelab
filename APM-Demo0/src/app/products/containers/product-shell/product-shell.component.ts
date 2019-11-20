@@ -4,7 +4,7 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Product} from '../../product';
 // ngRx
 import {select, Store} from '@ngrx/store';
-import * as fromProduct from '../../state/product.reducer';
+import * as fromProduct from '../../state';
 import * as productActions from '../../state/product.actions';
 import {Observable} from 'rxjs';
 
@@ -45,5 +45,18 @@ export class ProductShellComponent implements OnInit {
     // this.productService.changeSelectedProduct(product);
     this.store.dispatch(new productActions.SetCurrentProduct(product));
   }
+  deleteProduct(product: Product): void {
+    this.store.dispatch(new productActions.DeleteProduct(product.id));
+  }
 
+  clearProduct(): void {
+    this.store.dispatch(new productActions.ClearCurrentProduct());
+  }
+  saveProduct(product: Product): void {
+    this.store.dispatch(new productActions.CreateProduct(product));
+  }
+
+  updateProduct(product: Product): void {
+    this.store.dispatch(new productActions.UpdateProduct(product));
+  }
 }

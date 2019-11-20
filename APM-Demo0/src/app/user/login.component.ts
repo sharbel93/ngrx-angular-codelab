@@ -4,9 +4,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { AuthService } from './auth.service';
 import {select, Store} from '@ngrx/store';
-import * as fromUser from './state/user.reducer';
+import * as fromUser from './state';
 import * as userActions from './state/user.actions';
 import {takeWhile} from 'rxjs/operators';
+import * as fromRoot from '../state/app.state';
 @Component({
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private componentActive = true;
 
   constructor(
-    private store: Store<any>,
+    private store: Store<fromRoot.State>,
     private authService: AuthService,
     private router: Router) {
   }
