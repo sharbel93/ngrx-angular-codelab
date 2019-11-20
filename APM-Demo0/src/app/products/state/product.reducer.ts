@@ -20,7 +20,7 @@ const initialState: ProductState = {
   products: [],
   error: ''
 };
-
+// Selector Functions
 const getProductFeatureState = createFeatureSelector<ProductState>('products');
 
 export const getShowProductCode = createSelector(
@@ -105,6 +105,34 @@ export function reducer(state = initialState, action: ProductActions): ProductSt
         error: ''
       };
     case ProductActionTypes.UpdateProductFail:
+      return {
+        ...state,
+        error: action.payload
+      };
+    case ProductActionTypes.CreateProductSuccess:
+      return {
+        ...state,
+        products: [...state.products, action.payload],
+        currentProductId: action.payload.id,
+        error: ''
+      };
+
+    case ProductActionTypes.CreateProductFail:
+      return {
+        ...state,
+        error: action.payload
+      };
+
+    // After a delete, the currentProduct is null.
+    case ProductActionTypes.DeleteProductSuccess:
+      return {
+        ...state,
+        products: state.products.filter(product => product.id !== action.payload),
+        currentProductId: null,
+        error: ''
+      };
+
+    case ProductActionTypes.DeleteProductFail:
       return {
         ...state,
         error: action.payload
